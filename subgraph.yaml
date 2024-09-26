@@ -1,0 +1,44 @@
+specVersion: 1.0.0
+indexerHints:
+  prune: auto
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: MANAToken
+    network: mainnet
+    source:
+      address: "0x0F5D2fB29fb7d3CFeE444a200298f468908cC942"
+      abi: MANAToken
+      startBlock: 4162059
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Mint
+        - MintFinished
+        - Pause
+        - Unpause
+        - Burn
+        - Approval
+        - Transfer
+      abis:
+        - name: MANAToken
+          file: ./abis/MANAToken.json
+      eventHandlers:
+        - event: Mint(indexed address,uint256)
+          handler: handleMint
+        - event: MintFinished()
+          handler: handleMintFinished
+        - event: Pause()
+          handler: handlePause
+        - event: Unpause()
+          handler: handleUnpause
+        - event: Burn(indexed address,uint256)
+          handler: handleBurn
+        - event: Approval(indexed address,indexed address,uint256)
+          handler: handleApproval
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransfer
+      file: ./src/mana-token.ts
